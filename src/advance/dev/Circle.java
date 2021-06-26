@@ -1,10 +1,10 @@
 package advance.dev;
 
 public class Circle extends Shape{
-     double r;
+    double r;
 
-	public Circle(double r) {
-		super();
+	public Circle(String name, double r) {
+		super(name);
 		this.r = r;
 	}
 
@@ -19,9 +19,9 @@ public class Circle extends Shape{
 		// TODO Auto-generated method stub
 		return r*r*Math.PI;
 	}
-     @Override
-    public String toString() {
-    	// TODO Auto-generated method stub
-    	return String.format("dien tich cua hinh tron la : r=%f ", r);
-    }
+    @Override
+  public String toString() {
+  	// TODO Auto-generated method stub
+  	return String.format("Hinh tron ten %s , ban kinh la %f", name ,r);
+  }
 }
