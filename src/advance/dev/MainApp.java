@@ -1,92 +1,93 @@
 package advance.dev;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Scanner;
 
-  public class MainApp {
-	public static void  input(List<Shape> shapeList) {
+public class MainApp {
+	
+    static final int NUMBER_TRIANGLE = 4;
+    static final int NUMBER_CIRCLE = 3;
+    static final int NUMBER_RECTANGLE = 3;
+    
+	static void input(Shape[] shapes) {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("nhập vào số hình tròn: ");
-		int ci = sc.nextInt();
-		for(int i = 0; i <ci; i++) {
-			System.out.println("Bắt đầu nhập thông tin: tên, bán kính hinh tron");
-			String name = sc.next();
-			double banKinh = sc.nextDouble();
-			Shape Cir = new Circle(name, banKinh);
-			shapeList.add(Cir);
+		System.out.println("Nhập hình tam giác: ");
+		int i=0;
+		for (; i < NUMBER_TRIANGLE; i++) {
+			System.out.println("hình tam giác thứ: "+(i+1));
+			System.out.println("Nhập a: ");
+			double a = sc.nextDouble();
+			System.out.println("Nhập b: ");
+			double b = sc.nextDouble();
+			System.out.println("Nhập c: ");
+			double c = sc.nextDouble();
+			Triangle triangle = new Triangle(a, b, c);
+			shapes[i] = triangle;
+		}
+		System.out.println("Nhập hình tròn");
+		for (; i < NUMBER_TRIANGLE + NUMBER_CIRCLE; i++) {
+			System.out.println("hình tròn thứ:  "+(i+1));
+			System.out.println("Nhập r : ");
+	        double r = sc.nextDouble();
+			Circle circle = new Circle(r);
+			shapes[i] = circle;
+		}
+		System.out.println("Nhập hình chữ nhật: ");
+		for (; i < NUMBER_TRIANGLE + NUMBER_CIRCLE + NUMBER_RECTANGLE; i++) {
+			System.out.println("hình chữ nhật thứ:  "+(i+1));
+			System.out.println("Nhập a: ");
+			double a = sc.nextDouble();
+			System.out.println("Nhập b: ");
+			double b = sc.nextDouble();
+			Rectangle rectangle = new Rectangle(a, b);
+			shapes[i] = rectangle;
+		}	
 	}
-		
-		System.out.println("nhập số hình chữ nhật: ");
-		int Re = sc.nextInt();
-		for(int i = 0; i <Re; i++) {
-			System.out.println("Bắt đầu nhập thông tin: ten, canh A, canh B");
-			String name = sc.next();
-			double canhA = sc.nextDouble();
-			double canhB = sc.nextDouble();
-			Shape Rec = new Rectangle(name, canhA, canhB);
-			shapeList.add(Rec);
-	}
-		
-
-		System.out.println("nhập số hình tam giác: ");
-		int Tr = sc.nextInt();
-		for(int i = 0; i <Tr; i++) {
-			System.out.println("Bắt đầu nhập thông tin: ten, canh A, canh B, canh C");
-			String name = sc.next();
-			double canhA = sc.nextDouble();
-			double canhB = sc.nextDouble();
-			double canhC = sc.nextDouble();
-			Shape Tri = new Triangle(name, canhA, canhB, canhC);
-			shapeList.add(Tri);
-	}
-		
-	}
-	
-	static void print(List<Shape> shapeList) {
-		for(Shape shapes : shapeList) {
-			System.out.println(shapes.toString());
+	static void print(Shape[] shapes) {
+		for (int i = 0; i < shapes.length; i++) {
+			System.out.println(shapes[i].toString());
 		}
 	}
-	
-	static void findMaxChuVi(List<Shape> shapeList) {
-		Iterator<Shape> it = shapeList.iterator();
-		Shape max = shapeList.get(0);
-		while(it.hasNext()) {
-			Shape shape = it.next();
-			if(max.chuVi()< shape.chuVi()) {
-				max = shape;
+	static void findmaxDienTich(Shape[] shapes) {
+		Shape preMax = shapes[0];
+		for (int i = 0; i < shapes.length; i++) {
+			if(preMax.dienTich() < shapes[i].dienTich()) {
+				preMax=shapes[i];
 			}
-			
 		}
-		System.out.println("Hinh co chu vi lon nhat la: "+max.chuVi());
-	
+		System.out.println("dien tich lon nhat la:"+preMax.dienTich());
 	}
-	
-	static void findMaxDienTich(List<Shape> shapeList) {
-		Iterator<Shape> it = shapeList.iterator();
-		Shape max = shapeList.get(0);
-		while(it.hasNext()) {
-			Shape shape = it.next();
-			if(max.dienTich()< shape.dienTich()) {
-				max = shape;
-			}
-			
+	static void findmax(Shape[] shapes) {
+		Shape preTri = shapes[0];
+		Shape preCir = shapes[0];
+		Shape preRec = shapes[0];
+		int i=0;
+		for (; i < NUMBER_TRIANGLE; i++) {
+		if(preTri.dienTich() < shapes[i].dienTich()) {
+			preTri = shapes[i];
 		}
-		System.out.println("Hinh co dien tich lon nhat la: "+max.name+"--"+max.dienTich());
-		
 	}
-		
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		List<Shape> shapeList = new ArrayList<Shape>();
-		input(shapeList);
-		print(shapeList);
-		findMaxChuVi(shapeList);
-		findMaxDienTich(shapeList);
+		System.out.println("diện tích hình tam giác là: "+ preTri.dienTich());
+		for (; i < NUMBER_CIRCLE; i++) {
+		if(preCir.dienTich() < shapes[i].dienTich()) {
+			preCir = shapes[i];
+		}
 	}
-	
+		System.out.println("diện tích hình tròn là: "+ preCir.dienTich());
+		for (; i < NUMBER_RECTANGLE; i++) {
+		if(preRec.dienTich() < shapes[i].dienTich()) {
+			preRec = shapes[i];
+		}
+	}
+		System.out.println("diện tích hình chữ nhật là : "+ preRec.dienTich());
+	}
+		public static void main(String[] args) {
+			// TODO Auto-generated method stub
+		 Shape[] shapes = new Shape[NUMBER_TRIANGLE + NUMBER_CIRCLE + NUMBER_RECTANGLE];
+		 input(shapes);
+		 print(shapes);
+		 findmaxDienTich(shapes);
+		 findmax(shapes);
+		}
 }
 
 
